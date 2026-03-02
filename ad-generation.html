@@ -42,6 +42,7 @@
             <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
                 <h2 class="text-lg font-semibold mb-4">Upload Product Image</h2>
 
+                <!-- product image upload -->
                 <div class="mb-3 bg-slate-950 border border-slate-800 rounded-xl p-3">
                     <label class="text-sm text-slate-300 font-medium">Upload product image</label>
                     <div class="flex items-center gap-3 mt-2">
@@ -54,12 +55,32 @@
                     <div id="uploadStatus" class="text-sm text-slate-400 mt-2"></div>
                 </div>
 
+                <!-- actor image upload -->
+                <div class="mb-3 bg-slate-950 border border-slate-800 rounded-xl p-3">
+                    <label class="text-sm text-slate-300 font-medium">Upload actor image</label>
+                    <div class="flex items-center gap-3 mt-2">
+                        <input id="actorInput" type="file" accept="image/*" class="text-sm text-slate-200" />
+                        <button id="removeActorBtn"
+                            class="hidden text-sm px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700">Remove</button>
+                    </div>
+                    <img id="actorPreview" class="mt-3 w-48 h-48 object-cover rounded-lg border border-slate-700 hidden"
+                        src="" alt="Actor Preview" />
+                </div>
+
                 <h2 class="text-lg font-semibold mb-4">Prompt</h2>
                 <textarea id="autoBrief" rows="6"
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary">Steam rising slowly from coffee cup, warm lighting, slight camera push-in, clean product focus, UGC-style authentic ad</textarea>
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary">Warm lighting, slight camera push-in, clean product focus, UGC-style authentic ad</textarea>
 
-                <button onclick="startGeneration()"
-                    class="mt-4 w-full py-4 rounded-2xl bg-primary hover:bg-indigo-500 transition font-semibold text-lg">
+                <!-- voice selection -->
+                <div class="mt-4">
+                    <label for="voiceSelect" class="block text-sm font-medium text-slate-300 mb-1">Voice</label>
+                    <select id="voiceSelect"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                    </select>
+                </div>
+
+                 <button id="mainActionBtn" onclick="startGeneration()" disabled
+                    class="mt-4 w-full py-4 rounded-2xl bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-500 transition font-semibold text-lg">
                     Start Ad Generation
                 </button>
             </section>
@@ -104,6 +125,147 @@
         // Selected image/file state
         let selectedImageFile = null;
         let selectedImageUrl = null;
+        // Actor image state
+        let actorImageFile = null;
+        let actorImageUrl = null;
+        // Job id returned from upload API (used to start generation)
+        let currentJobId = null;
+        // voice state
+        let selectedVoice = null;
+
+        // available voices (could come from API later)
+        const voiceData = {
+            "default_voice": {
+                "name": "Rachel",
+                "voice_id": "Rachel"
+            },
+            "voices": [
+                {
+                    "name": "Rachel",
+                    "voice_id": "Rachel"
+                },
+                {
+                    "name": "Drew",
+                    "voice_id": "Drew"
+                },
+                {
+                    "name": "Clyde",
+                    "voice_id": "Clyde"
+                },
+                {
+                    "name": "Paul",
+                    "voice_id": "Paul"
+                },
+                {
+                    "name": "Aria",
+                    "voice_id": "Aria"
+                },
+                {
+                    "name": "Domi",
+                    "voice_id": "Domi"
+                },
+                {
+                    "name": "Dave",
+                    "voice_id": "Dave"
+                },
+                {
+                    "name": "Roger",
+                    "voice_id": "Roger"
+                },
+                {
+                    "name": "Fin",
+                    "voice_id": "Fin"
+                },
+                {
+                    "name": "Sarah",
+                    "voice_id": "Sarah"
+                },
+                {
+                    "name": "James",
+                    "voice_id": "James"
+                },
+                {
+                    "name": "Jane",
+                    "voice_id": "Jane"
+                },
+                {
+                    "name": "Juniper",
+                    "voice_id": "Juniper"
+                },
+                {
+                    "name": "Arabella",
+                    "voice_id": "Arabella"
+                },
+                {
+                    "name": "Hope",
+                    "voice_id": "Hope"
+                },
+                {
+                    "name": "Bradford",
+                    "voice_id": "Bradford"
+                },
+                {
+                    "name": "Reginald",
+                    "voice_id": "Reginald"
+                },
+                {
+                    "name": "Gaming",
+                    "voice_id": "Gaming"
+                },
+                {
+                    "name": "Austin",
+                    "voice_id": "Austin"
+                },
+                {
+                    "name": "Kuon",
+                    "voice_id": "Kuon"
+                },
+                {
+                    "name": "Blondie",
+                    "voice_id": "Blondie"
+                },
+                {
+                    "name": "Priyanka",
+                    "voice_id": "Priyanka"
+                },
+                {
+                    "name": "Alexandra",
+                    "voice_id": "Alexandra"
+                },
+                {
+                    "name": "Monika",
+                    "voice_id": "Monika"
+                },
+                {
+                    "name": "Mark",
+                    "voice_id": "Mark"
+                },
+                {
+                    "name": "Grimblewood",
+                    "voice_id": "Grimblewood"
+                }
+            ]
+        }
+
+        // populate voice select on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('voiceSelect');
+            if (select) {
+                voiceData.voices.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v.voice_id;
+                    opt.textContent = v.name;
+                    select.appendChild(opt);
+                });
+                // set default
+                selectedVoice = voiceData.default_voice.voice_id;
+                select.value = selectedVoice;
+                select.addEventListener('change', () => {
+                    selectedVoice = select.value;
+                });
+            }
+            updateMainButtonState();
+        });
 
         const steps = document.querySelectorAll("[data-step]");
 
@@ -153,43 +315,42 @@
                 // Step 2 -> upload
                 setStepState(0, 'in-progress', 'Preparing assets');
 
+                // Always upload images when starting generation; button is only enabled when both images are present
                 let uploadResult = null;
-                let jobId = null;
-                if (selectedImageFile && !selectedImageUrl) {
-                    setStepState(0, 'in-progress', 'Uploading image...');
-                    uploadResult = await uploadImage();
-                    if (uploadResult && uploadResult.status) {
-                        setStepState(0, 'success', `Uploaded — ${uploadResult.status}`);
-                        jobId = uploadResult.job_id;
-                    } else {
-                        setStepState(0, 'error', 'Upload failed');
-                        return
-                    }
-                } else if (selectedImageUrl) {
-                    setStepState(0, 'success', 'Using selected image');
+                let jobId = currentJobId || null;
+                setStepState(0, 'in-progress', 'Uploading assets...');
+                uploadResult = await uploadImage();
+                if (uploadResult && uploadResult.status) {
+                    setStepState(0, 'success', `Uploaded All Details`);
+                    jobId = uploadResult.job_id || currentJobId;
                 } else {
-                    setStepState(0, 'success', 'No image provided');
+                    setStepState(0, 'error', 'Upload failed');
+                    return;
                 }
 
                 if (jobId && jobId.length > 1) {
                     setStepState(1, 'in-progress', 'Generating video');
                     await startJob(jobId);
-                    let intervalId;
-                    intervalId = setInterval(async () => {
-                        const statusData = await checkJobStatus(jobId);
-                        if (statusData && statusData.status) {
-                            if (statusData.status === 'succeeded') {
-                                setStepState(1, 'success', 'Video generated successfully');
-                                clearInterval(intervalId);
-                                window.location.href = `library.html`;
-                            } else if (statusData.status === 'processing' || statusData.status === 'pending') {
-                                setStepState(1, 'in-progress', `Status: ${statusData.status}`);
-                            } else {
-                                setStepState(1, 'error', 'Video generation failed');
-                                clearInterval(intervalId);
-                            }
-                        }
-                    }, 5000);
+                    setTimeout(() => {
+                        window.alert('Ad generation started! Please check back in 2 to 3 mins.');
+                        window.location.href = `library.html`;
+                    }, 1000);
+                    // let intervalId;
+                    // intervalId = setInterval(async () => {
+                    //     const statusData = await checkJobStatus(jobId);
+                    //     if (statusData && statusData.status) {
+                    //         if (statusData.status === 'succeeded') {
+                    //             setStepState(1, 'success', 'Video generated successfully');
+                    //             clearInterval(intervalId);
+                    //             window.location.href = `library.html`;
+                    //         } else if (statusData.status === 'processing' || statusData.status === 'pending') {
+                    //             setStepState(1, 'in-progress', `Status: ${statusData.status}`);
+                    //         } else {
+                    //             setStepState(1, 'error', 'Video generation failed');
+                    //             clearInterval(intervalId);
+                    //         }
+                    //     }
+                    // }, 5000);
                 } else {
                     setStepState(1, 'error', 'Error generating video');
                 }
@@ -203,18 +364,46 @@
         const uploadStatus = document.getElementById("uploadStatus");
         const removeImageBtn = document.getElementById("removeImageBtn");
 
+        const actorInput = document.getElementById("actorInput");
+        const actorPreview = document.getElementById("actorPreview");
+        const removeActorBtn = document.getElementById("removeActorBtn");
+
         imageInput.addEventListener('change', handleImageSelect);
         removeImageBtn.addEventListener('click', removeSelectedImage);
+        actorInput.addEventListener('change', handleImageSelect);
+        removeActorBtn.addEventListener('click', removeActorImage);
+
+        function updateMainButtonState() {
+            const mainBtn = document.getElementById('mainActionBtn');
+            if (!mainBtn) return;
+            // enable only when both images have been chosen
+            if (selectedImageFile && actorImageFile) {
+                mainBtn.disabled = false;
+                mainBtn.textContent = 'Upload details';
+            } else {
+                mainBtn.disabled = true;
+                mainBtn.textContent = 'Upload details';
+            }
+        }
 
         function handleImageSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
-            selectedImageFile = file;
-            // Show local preview
-            imagePreview.src = URL.createObjectURL(file);
-            imagePreview.classList.remove('hidden');
-            removeImageBtn.classList.remove('hidden');
-            uploadStatus.textContent = 'Ready to upload...';
+            const id = e.target.id;
+            if (id === 'actorInput') {
+                actorImageFile = file;
+                actorPreview.src = URL.createObjectURL(file);
+                actorPreview.classList.remove('hidden');
+                removeActorBtn.classList.remove('hidden');
+            } else {
+                selectedImageFile = file;
+                // Show local preview
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.classList.remove('hidden');
+                removeImageBtn.classList.remove('hidden');
+                uploadStatus.textContent = 'Ready to upload...';
+            }
+            updateMainButtonState();
         }
 
         function removeSelectedImage() {
@@ -225,21 +414,41 @@
             imagePreview.classList.add('hidden');
             removeImageBtn.classList.add('hidden');
             uploadStatus.textContent = '';
+            updateMainButtonState();
+        }
+
+        function removeActorImage() {
+            actorImageFile = null;
+            actorImageUrl = null;
+            actorInput.value = '';
+            actorPreview.src = '';
+            actorPreview.classList.add('hidden');
+            removeActorBtn.classList.add('hidden');
+            updateMainButtonState();
         }
 
         async function uploadImage() {
-            if (!selectedImageFile) return;
+            // require at least a product or actor image
+            if (!selectedImageFile && !actorImageFile) return;
             const prompt = document.getElementById('autoBrief')?.value || '';
             const fd = new FormData();
-            fd.append('image', selectedImageFile, selectedImageFile.name);
+            if (selectedImageFile) {
+                fd.append('product_images', selectedImageFile, selectedImageFile.name);
+            }
+            if (actorImageFile) {
+                fd.append('actor_image', actorImageFile, actorImageFile.name);
+            }
             fd.append('prompt', prompt);
+            if (selectedVoice) {
+                fd.append('voice', selectedVoice);
+            }
 
             uploadStatus.textContent = 'Uploading image...';
             imageInput.disabled = true;
 
             const token = localStorage.getItem('adbase_token');
             try {
-                const res = await fetch('https://backend.tryadbase.com/api/jobs/upload', {
+                const res = await fetch('https://backend.tryadbase.com/api/jobs/upload-full', {
                     method: 'POST',
                     body: fd,
                     headers: {
@@ -257,12 +466,12 @@
 
                 const data = await res.json();
                 // API returns image_url, job_id, prompt, status
-                selectedImageUrl = data.image_url || selectedImageUrl;
-                if (selectedImageUrl) {
-                    imagePreview.src = selectedImageUrl;
-                    imagePreview.classList.remove('hidden');
+
+                // Save returned job id and enable main action button
+                if (data.job_id) {
+                    currentJobId = data.job_id;
                 }
-                uploadStatus.innerHTML = `Uploaded — status: <strong>${data.status}</strong>`;
+
                 return data;
             } catch (err) {
                 console.error(err);
@@ -277,21 +486,15 @@
             const token = localStorage.getItem('adbase_token');
 
             try {
-                const res = await fetch(`https://backend.tryadbase.com/api/jobs/${jobId}/start`, {
+                const res = fetch(`https://backend.tryadbase.com/api/jobs/${jobId}/start-full`, {
                     method: 'POST',
+                    body: JSON.stringify({ use_agents: true, tone: "friendly", duration_target_sec: 12 }),
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
                 });
 
-                if (!res.ok) {
-                    const text = await res.text();
-                    console.error('Start job error:', text);
-                    setStepState(1, 'error', 'Failed to start job');
-                    return false;
-                }
-
-                setStepState(1, 'in-progress', 'Job started successfully');
                 return true;
             } catch (err) {
                 console.error(err);
@@ -300,28 +503,28 @@
             }
         }
 
-        async function checkJobStatus(jobId) {
-            const token = localStorage.getItem('adbase_token');
-            try {
-                const res = await fetch(`https://backend.tryadbase.com/api/jobs/${jobId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+        // async function checkJobStatus(jobId) {
+        //     const token = localStorage.getItem('adbase_token');
+        //     try {
+        //         const res = await fetch(`https://backend.tryadbase.com/api/jobs/${jobId}`, {
+        //             headers: {
+        //                 Authorization: `Bearer ${token}`
+        //             }
+        //         });
 
-                if (!res.ok) {
-                    const text = await res.json();
-                    console.error('Check job status error:', text);
-                    return null;
-                }
+        //         if (!res.ok) {
+        //             const text = await res.json();
+        //             console.error('Check job status error:', text);
+        //             return null;
+        //         }
 
-                const data = await res.json();
-                return data;
-            } catch (err) {
-                console.error(err);
-                return null;
-            }
-        }
+        //         const data = await res.json();
+        //         return data;
+        //     } catch (err) {
+        //         console.error(err);
+        //         return null;
+        //     }
+        // }
     </script>
 
 </body>
