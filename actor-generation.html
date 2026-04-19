@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Generate Ad — AdBase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4f46e5",
+                        success: "#22c55e"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+    <header class="border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <h1 class="text-xl font-bold">AdBase</h1>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-10">
+        <section class="rounded-2xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl shadow-slate-950/30">
+            <div class="mb-4">
+                <h4 class="text-2xl font-semibold text-white">Actor image generation</h2>
+            </div>
+
+            <form id="actorForm" class="grid gap-6">
+                <div>
+                    <label for="actorName" class="block text-sm font-medium text-slate-200">Actor Name</label>
+                    <input id="actorName" name="actorName" type="text" required placeholder="Enter actor name"
+                        class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div>
+                        <label for="gender" class="block text-sm font-medium text-slate-200">Gender</label>
+                        <select id="gender" name="gender" required
+                            class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30">
+                            <option value="female" selected>Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="ageBand" class="block text-sm font-medium text-slate-200">Age band</label>
+                        <select id="ageBand" name="ageBand" required
+                            class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30">
+                            <option value="18-24" selected>18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45-54">45-54</option>
+                            <option value="55+">55+</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="ethnicity" class="block text-sm font-medium text-slate-200">Ethnicity</label>
+                    <input id="ethnicity" name="ethnicity" type="text" required placeholder="Enter ethnicity"
+                        class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-3">
+                    <div>
+                        <label for="hairTraits" class="block text-sm font-medium text-slate-200">Hair traits</label>
+                        <input id="hairTraits" name="hairTraits" type="text" required placeholder="e.g. curly, blond"
+                            class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                    <div>
+                        <label for="styleTraits" class="block text-sm font-medium text-slate-200">Style traits</label>
+                        <input id="styleTraits" name="styleTraits" type="text" required
+                            placeholder="e.g. casual, vintage"
+                            class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                    <div>
+                        <label for="vibeTraits" class="block text-sm font-medium text-slate-200">Vibe traits</label>
+                        <input id="vibeTraits" name="vibeTraits" type="text" required placeholder="e.g. energetic, calm"
+                            class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <button id="createActorBtn" type="submit" disabled
+                        class="inline-flex w-full justify-center rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-700">
+                        Create Actor
+                    </button>
+                    <p id="status" class="text-center text-sm text-slate-400">
+                    </p>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById('actorForm');
+        const submitButton = document.getElementById('createActorBtn');
+        const statusText = document.getElementById('status');
+
+        const updateButtonState = () => {
+            const fields = Array.from(form.querySelectorAll('input[required], select[required]'));
+            const allFilled = fields.every((field) => field.value.trim() !== '');
+            submitButton.disabled = !allFilled;
+            statusText.textContent = allFilled ? 'Ready to create your actor.' : 'Fill in every field to enable the button.';
+        };
+
+        form.addEventListener('input', updateButtonState);
+        form.addEventListener('change', updateButtonState);
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (submitButton.disabled) return;
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Creating actor...';
+            statusText.textContent = 'Generating actor image and saving details...';
+
+            const actorData = {
+                name: document.getElementById('actorName').value.trim(),
+                age_band: document.getElementById('ageBand').value,
+                ethnicity: document.getElementById('ethnicity').value.trim(),
+                gender_presentation: document.getElementById('gender').value,
+                traits: {
+                    hair: document.getElementById('hairTraits').value.trim(),
+                    style: document.getElementById('styleTraits').value.trim(),
+                    vibe: document.getElementById('vibeTraits').value.trim()
+                }
+            };
+            let status = await createActor(actorData);
+            if (status) {
+                statusText.textContent = 'Actor created successfully! Redirecting to actors library...';
+                setTimeout(() => {
+                    window.location.href = 'actors.html';
+                }, 1500);
+            } else {
+                statusText.textContent = 'Failed to create actor. Please try again.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Create Actor';
+            }
+        });
+
+        async function createActor(payload) {
+            const token = localStorage.getItem('adbase_token');
+
+            try {
+                const res = await fetch(`https://backend.tryadbase.com/api/actors/generate`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                return true;
+            } catch (err) {
+                console.error(err);
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>
