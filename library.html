@@ -118,14 +118,14 @@
 
                 <div class="flex justify-between items-center pt-2">
                   <span class="text-xs ${ad.status === 'succeeded' ? 'text-success' : 'text-yellow-500'} font-medium capitalize">${ad.status}</span>
-                  <a
+                  ${ad.status === 'succeeded' && ad.output_video_url ?`<a
                     href="${ad.output_video_url || '#'}"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="text-sm text-primary hover:underline"
                   >
                     View
-                  </a>
+                  </a>` : ''}
                 </div>
               </div>
             </div>
