@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <script>if (localStorage.getItem('adbase_token')) window.location.replace('dashboard.html');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — AdBase</title>
+  <title>Sign Up — AdBase</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -35,86 +32,46 @@
   </script>
 
   <style>
-    :root {
-      color-scheme: dark;
-    }
-
-    body {
-      background-color: #07090e;
-    }
-
+    :root { color-scheme: dark; }
+    body { background-color: #07090e; }
     .glass-card {
       background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.09);
     }
-
     .input-field {
       background: rgba(7, 9, 14, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.09);
       color: #f1f5f9;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .input-field:focus {
       outline: none;
       border-color: rgba(99, 102, 241, 0.6);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
     }
-
-    .input-field::placeholder {
-      color: #475569;
-    }
-
+    .input-field::placeholder { color: #475569; }
     .btn-primary {
       background: linear-gradient(135deg, #4f46e5, #06b6d4);
       transition: opacity 0.2s, transform 0.15s;
     }
-
-    .btn-primary:hover:not(:disabled) {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
-    }
-
+    .btn-primary:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
     @keyframes pulse-glow {
-
-      0%,
-      100% {
-        opacity: 0.4;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 0.7;
-        transform: scale(1.06);
-      }
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.06); }
     }
-
-    .animate-pulse-glow {
-      animation: pulse-glow 5s ease-in-out infinite;
-    }
+    .animate-pulse-glow { animation: pulse-glow 5s ease-in-out infinite; }
   </style>
 </head>
 
-<body
-  class="font-sans antialiased min-h-screen text-slate-100 flex items-center justify-center relative overflow-hidden">
+<body class="font-sans antialiased min-h-screen text-slate-100 flex items-center justify-center relative overflow-hidden">
 
   <!-- Ambient Background Glows -->
   <div class="fixed inset-0 pointer-events-none z-0">
-    <div
-      class="absolute top-[-15%] left-[10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[130px] animate-pulse-glow">
-    </div>
+    <div class="absolute top-[-15%] left-[10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[130px] animate-pulse-glow"></div>
     <div class="absolute bottom-[-10%] right-[5%] w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[120px]"></div>
     <div class="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-violet-600/10 rounded-full blur-[100px]"></div>
   </div>
@@ -126,11 +83,9 @@
       <!-- Brand Logo -->
       <div class="flex flex-col items-center mb-8">
         <a href="index.html" class="flex items-center gap-3 mb-6 group">
-          <div
-            class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-500/25">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-500/25">
             <div class="w-full h-full rounded-[10px] flex items-center justify-center" style="background:#07090e">
-              <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
             </div>
@@ -138,47 +93,38 @@
           <span class="font-heading font-extrabold text-2xl tracking-tight text-white">AdBase</span>
         </a>
         <h1 class="font-heading text-2xl font-bold text-white mb-1.5">Welcome back</h1>
-        <p class="text-slate-400 text-sm text-center">Sign in to your creative studio</p>
+        <p class="text-slate-400 text-sm text-center">Sign Up to your creative studio</p>
       </div>
 
       <!-- Sign-in Form -->
       <form id="loginForm" class="w-full space-y-5" onsubmit="handleLogin(event)">
         <div>
           <label class="block text-sm font-medium text-slate-300 mb-2" for="username">Username</label>
-          <input id="username" name="username" required class="input-field w-full rounded-xl px-4 py-3 text-sm"
+          <input id="username" name="username" required
+            class="input-field w-full rounded-xl px-4 py-3 text-sm"
             placeholder="Enter your username" />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-slate-300 mb-2" for="password">Password</label>
           <input id="password" name="password" type="password" required
-            class="input-field w-full rounded-xl px-4 py-3 text-sm" placeholder="Enter your password" />
+            class="input-field w-full rounded-xl px-4 py-3 text-sm"
+            placeholder="Enter your password" />
         </div>
 
-        <div id="error" class="hidden px-4 py-3 rounded-xl text-rose-400 text-xs font-medium"
-          style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25)"></div>
+        <div id="error" class="hidden px-4 py-3 rounded-xl text-rose-400 text-xs font-medium" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25)"></div>
 
         <button id="signinBtn" type="submit"
           class="btn-primary w-full px-4 py-3.5 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 mt-2">
-          <span>Sign In</span>
+          <span>Sign Up</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
           </svg>
         </button>
       </form>
 
-      <!-- Sign Up Link -->
-      <div class="text-center pt-4">
-        <p class="text-sm text-slate-400">
-          Don't have an account?
-          <a href="sign-up.html" class="text-indigo-400 hover:text-cyan-400 font-semibold transition-colors">
-            Sign up
-          </a>
-        </p>
-      </div>
-
       <!-- Divider + Disclaimer -->
-      <div class="mt-4 pt-6 text-center" style="border-top:1px solid rgba(255,255,255,0.07)">
+      <div class="mt-8 pt-6 text-center" style="border-top:1px solid rgba(255,255,255,0.07)">
         <p class="text-xs text-slate-500">
           By continuing, you agree to AdBase's Terms of Service and Privacy Policy.
         </p>
@@ -188,8 +134,7 @@
 
     <!-- Back to home -->
     <div class="text-center mt-6">
-      <a href="index.html"
-        class="text-xs text-slate-500 hover:text-slate-300 transition flex items-center justify-center gap-1.5">
+      <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition flex items-center justify-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -199,7 +144,7 @@
   </div>
 
   <script>
-    const API_URL = 'https://backend.tryadbase.com/api/auth/login';
+    const API_URL = 'https://backend.tryadbase.com/api/auth/register';
 
     async function handleLogin(e) {
       e.preventDefault();
@@ -232,7 +177,7 @@
         // Redirect after successful login
         window.location.href = 'dashboard.html';
       } catch (err) {
-          let displayMessage = 'Login Failed';
+        let displayMessage = 'Registration Failed';
         try {
           const parsedError = JSON.parse(err.message);
           displayMessage = parsedError?.error || displayMessage;
@@ -255,5 +200,4 @@
   </script>
 
 </body>
-
 </html>

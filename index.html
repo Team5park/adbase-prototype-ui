@@ -1,63 +1,1517 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
-  <meta charset="UTF-8">
-  <title>AdBase — Page Links</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <script>if (localStorage.getItem('adbase_token')) window.location.replace('dashboard.html');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdBase — Generate AI UGC Video Ads with Custom AI Actors</title>
+  <meta name="description"
+    content="Upload your product photo, choose or generate custom AI actors, select from 26 studio voices, and create scroll-stopping UGC video ads in minutes." />
+
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Custom Tailwind Config -->
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
           colors: {
-            primary: "#4f46e5",
-            accent: "#22c55e"
+            primary: {
+              DEFAULT: '#4f46e5',
+              dark: '#4338ca',
+              light: '#6366f1',
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            accent: {
+              emerald: '#22c55e',
+              cyan: '#06b6d4',
+              violet: '#8b5cf6',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+            },
+            dark: {
+              950: '#07090e',
+              900: '#0b0f19',
+              850: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+            }
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'float-delayed': 'float 6s ease-in-out 3s infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+            'shimmer': 'shimmer 2.5s linear infinite',
+            'spin-slow': 'spin 12s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.75', transform: 'scale(1.08)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
           }
         }
       }
     }
   </script>
+
+  <style>
+    /* Custom High-End Styling & Visual Depth */
+    :root {
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: #07090e;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+
+    /* Custom Noise Texture Overlay */
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+
+    /* Gradient Text Utilities */
+    .text-gradient-primary {
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-vibrant {
+      background: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-purple {
+      background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Glassmorphic Surfaces */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card-hover:hover {
+      background: rgba(30, 41, 59, 0.7);
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.18);
+    }
+
+    /* Glow utilities */
+    .glow-indigo {
+      box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35);
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.35);
+    }
+
+    .glow-emerald {
+      box-shadow: 0 0 50px -10px rgba(34, 197, 94, 0.35);
+    }
+
+    /* Glowing Border Button */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent);
+      transform: rotate(30deg);
+      transition: all 0.75s ease;
+      opacity: 0;
+    }
+
+    .btn-shine:hover::after {
+      opacity: 1;
+      left: 100%;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Ambient Cursor Glow */
+    #cursorGlow {
+      pointer-events: none;
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, rgba(6, 182, 212, 0.03) 40%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      #cursorGlow {
+        display: none;
+      }
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center">
 
-  <div class="max-w-3xl w-full p-10 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
-    <h1 class="text-3xl font-bold mb-6 text-center">AdBase Frontend Pages</h1>
+<body class="font-sans antialiased selection:bg-indigo-500 selection:text-white bg-noise">
 
-    <ul class="space-y-4 text-lg">
-      <li>
-        <a href="landing.html" class="text-primary hover:underline">Landing Page</a>
-      </li>
-      <li>
-        <a href="login.html" class="text-primary hover:underline">Login / Continue with Google</a>
-      </li>
-      <li>
-        <a href="onboarding.html" class="text-primary hover:underline">Onboarding / Brand Setup</a>
-      </li>
-      <li>
-        <a href="dashboard.html" class="text-primary hover:underline">Dashboard</a>
-      </li>
-      <li>
-        <a href="ad-generation.html" class="text-primary hover:underline">Ad Generation (Core Flow)</a>
-      </li>
-      <li>
-        <a href="library.html" class="text-primary hover:underline">Ad Library</a>
-      </li>
-      <li>
-        <a href="settings.html" class="text-primary hover:underline">Settings</a>
-      </li>
-      <li>
-        <a href="actors.html" class="text-primary hover:underline">Actors: View all actors</a>
-      </li>
-      <li>
-        <a href="actor-generation.html" class="text-primary hover:underline">Actor Generation: Create new actor</a>
-      </li>
-    </ul>
+  <!-- Ambient Interactive Cursor Follower -->
+  <div id="cursorGlow"></div>
 
-
+  <!-- Background Atmospheric Layered Glows -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div
+      class="absolute top-[-10%] left-[20%] w-[650px] h-[650px] bg-indigo-600/15 rounded-full blur-[140px] animate-pulse-glow">
+    </div>
+    <div
+      class="absolute top-[35%] right-[-5%] w-[550px] h-[550px] bg-cyan-500/10 rounded-full blur-[130px] animate-float-delayed">
+    </div>
+    <div class="absolute top-[65%] left-[-10%] w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[150px]"></div>
+    <div class="absolute bottom-[-10%] right-[15%] w-[700px] h-[700px] bg-emerald-500/10 rounded-full blur-[160px]">
+    </div>
   </div>
+  <!-- STICKY GLASS NAVBAR -->
+  <header id="mainNavbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/[0.05] bg-dark-950/70 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+      <!-- Logo & Version Pill -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition">
+          <div class="w-full h-full bg-dark-950 rounded-[11px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-indigo-400 group-hover:text-cyan-300 transition-colors" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-heading font-extrabold text-2xl tracking-tight text-white">AdBase</span>
+          <span
+            class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-medium rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">AI
+            UGC</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+        <a href="#actor-studio" class="hover:text-white transition-colors">AI Actors</a>
+        <a href="#voices" class="hover:text-white transition-colors">Studio Voices</a>
+        <a href="#formats" class="hover:text-white transition-colors">Ad Formats</a>
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <!-- <a href="library.html" class="hover:text-white transition-colors">Library</a> -->
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="login.html"
+          class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+          Log in
+        </a>
+        <a href="ad-generation.html"
+          class="btn-shine relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 text-white font-medium text-sm shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] active:scale-[0.98] transition">
+          <span>Create Ad</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" aria-label="Toggle mobile navigation"
+        class="md:hidden p-2 rounded-lg bg-dark-900 border border-white/10 text-slate-300 hover:text-white">
+        <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu"
+      class="hidden md:hidden border-b border-white/10 bg-dark-950/95 backdrop-blur-2xl px-6 py-6 space-y-4">
+      <div class="flex flex-col space-y-3 font-medium text-slate-300">
+        <a href="#how-it-works" class="mobile-nav-link hover:text-white py-1">How It Works</a>
+        <a href="#actor-studio" class="mobile-nav-link hover:text-white py-1">AI Actors</a>
+        <a href="#voices" class="mobile-nav-link hover:text-white py-1">Studio Voices</a>
+        <a href="#formats" class="mobile-nav-link hover:text-white py-1">Ad Formats</a>
+        <a href="#features" class="mobile-nav-link hover:text-white py-1">Features</a>
+        <a href="library.html" class="mobile-nav-link hover:text-white py-1">Library</a>
+      </div>
+      <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
+        <a href="login.html"
+          class="w-full text-center py-2.5 rounded-xl border border-white/10 text-slate-200 font-medium">Log in</a>
+        <a href="ad-generation.html"
+          class="w-full text-center py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold">Create
+          Your First Ad →</a>
+      </div>
+    </div>
+  </header>
+  <!-- MAIN WRAPPER -->
+  <main class="relative z-10 pt-28 md:pt-36">
+
+    <!-- HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-6 pt-6 pb-20 lg:pb-32">
+      <div class="text-center max-w-4xl mx-auto mb-14 lg:mb-20">
+
+        <!-- Animated Badge -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-8 animate-float-slow shadow-lg shadow-indigo-500/10">
+          <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-400"></span>
+          </span>
+          <span>✦ AI UGC Video Generator</span>
+          <span class="text-slate-500">•</span>
+          <span class="text-cyan-400 font-mono">Custom Actors & Voices</span>
+        </div>
+
+        <!-- Master Headline -->
+        <h1 class="font-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] mb-8">
+          Turn Product Photos Into<br class="hidden sm:inline" />
+          UGC Video Ads With <span class="text-gradient-vibrant">AI Actors.</span>
+        </h1>
+
+        <!-- One-Sentence Crisp Value Prop -->
+        <p class="text-lg sm:text-xl lg:text-2xl text-slate-300 font-normal leading-relaxed max-w-3xl mx-auto mb-10 text-balance">
+          Upload your product image, generate or choose a custom AI actor, select from 26 natural studio voices, and create authentic short-form video ads in minutes.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-8">
+          <a href="ad-generation.html"
+            class="btn-shine w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-base shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/60 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-3">
+            <span>Create Your First Ad</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
+
+          <a href="actors.html"
+            class="w-full sm:w-auto px-8 py-4 rounded-2xl glass-card hover:bg-slate-800/80 border border-white/10 hover:border-slate-600 text-slate-200 font-semibold text-base transition flex items-center justify-center gap-2.5">
+            <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>Explore AI Actors</span>
+          </a>
+        </div>
+
+        <!-- Micro Feature Proof Line -->
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
+          <span class="flex items-center gap-1.5 text-emerald-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Custom AI Actor Generation
+          </span>
+          <span class="text-slate-600">•</span>
+          <span class="flex items-center gap-1.5 text-indigo-300">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+            </svg>
+            26 Studio Voice Models
+          </span>
+          <span class="text-slate-600">•</span>
+          <span class="flex items-center gap-1.5 text-cyan-400">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Ready for TikTok & Reels
+          </span>
+        </div>
+
+      </div>
+
+      <!-- HERO VISUAL: REALISTIC ADBASE CREATION STUDIO INTERFACE -->
+      <div class="relative max-w-6xl mx-auto">
+
+        <!-- Backlight Glow behind window -->
+        <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 rounded-[28px] blur-2xl opacity-30 group-hover:opacity-60 transition duration-1000"></div>
+
+        <!-- Floating UI Accents -->
+        <!-- Floating Pill 1: Actor Selected -->
+        <div
+          class="hidden lg:flex items-center gap-3 absolute -top-8 -left-8 z-30 px-4 py-2.5 rounded-2xl glass-card border border-indigo-500/40 shadow-xl shadow-indigo-950/80 animate-float-slow">
+          <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-white">AI Actor Matched</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">Demographic Fit</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Age: 25-34 • Vibe: Energetic</p>
+          </div>
+        </div>
+
+        <!-- Floating Pill 2: Studio Voice Selected -->
+        <div
+          class="hidden lg:flex items-center gap-3 absolute top-1/2 -right-10 z-30 px-4 py-2.5 rounded-2xl glass-card border border-cyan-500/40 shadow-xl shadow-cyan-950/80 animate-float-delayed">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-white">Voice: Rachel</span>
+              <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">26 Voices</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Natural tone • 12s Duration</p>
+          </div>
+        </div>
+
+        <!-- Floating Pill 3: Video Ready -->
+        <div
+          class="hidden lg:flex items-center gap-3 absolute -bottom-6 left-1/4 z-30 px-4 py-2.5 rounded-2xl glass-card border border-emerald-500/40 shadow-xl shadow-emerald-950/80 animate-float-slow">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-white">UGC Video Ready</span>
+              <span class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-mono font-bold">9:16 HD</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Saved to Creative Library</p>
+          </div>
+        </div>
+
+        <!-- Main Studio Window Container -->
+        <div class="relative bg-dark-900/90 backdrop-blur-2xl border border-white/10 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+
+          <!-- Window Chrome Header -->
+          <div class="px-5 py-3.5 border-b border-white/[0.08] bg-dark-950/80 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+              </div>
+              <span class="text-slate-600 font-mono text-xs ml-2">|</span>
+              <div class="flex items-center gap-2 ml-2">
+                <span class="text-xs font-mono font-medium text-slate-300">tryadbase.com/ad-generation</span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Studio Mode</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                AI Pipeline Ready
+              </span>
+            </div>
+          </div>
+
+          <!-- Studio Main Body -->
+          <div class="p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+            <!-- Left 7 cols: Generation Pipeline & Input Controls -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-5">
+
+              <!-- Step 1: Uploaded Product Image Preview -->
+              <div class="p-4 rounded-2xl bg-dark-950/60 border border-white/[0.08] flex items-center gap-4">
+                <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-slate-800 to-indigo-950 p-2 flex-shrink-0 flex items-center justify-center border border-indigo-500/20 relative overflow-hidden">
+                  <svg class="w-9 h-9 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                  </svg>
+                  <span class="absolute bottom-1 right-1 text-[8px] font-mono px-1 rounded bg-emerald-500/30 text-emerald-300 font-bold">READY</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-semibold text-white truncate">product_hero_shot.png</h4>
+                    <span class="text-xs font-mono text-emerald-400">1.8 MB Uploaded</span>
+                  </div>
+                  <p class="text-xs text-slate-400 mt-0.5 truncate">Active Noise Cancelling Wireless Headphones</p>
+                </div>
+              </div>
+
+              <!-- Step 2: Selected AI Actor Card -->
+              <div class="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-500/30 flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center font-bold text-white text-sm shadow-md flex-shrink-0">
+                  SO
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-white">Sofia (AI Creator)</span>
+                    <span class="text-[10px] font-mono text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded-full">Female • 25-34</span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Style: Casual Lifestyle • Vibe: Energetic & Relatable</p>
+                </div>
+              </div>
+
+              <!-- Step 3: Selected Voice & Visual Prompt -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-semibold text-slate-300 uppercase tracking-wider">Visual Prompt & Directing Brief</span>
+                  <span class="font-mono text-cyan-400 text-[11px]">Voice: Rachel (Studio Audio)</span>
+                </div>
+                <div class="p-3 rounded-xl bg-dark-950/70 border border-white/[0.06] text-xs font-mono text-slate-300 leading-relaxed">
+                  “Warm natural lighting, slight camera push-in, clean product focus, creator unboxing in cozy home office, UGC-style authentic review”
+                </div>
+              </div>
+
+              <!-- Timeline / Progress Simulation -->
+              <div class="space-y-2 pt-2 border-t border-white/[0.06]">
+                <div class="flex items-center justify-between text-xs font-mono">
+                  <span class="text-emerald-400 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    Generation Complete (12s Video Output)
+                  </span>
+                  <span class="text-slate-400">100% Rendered</span>
+                </div>
+                <div class="h-2 w-full rounded-full bg-slate-800 overflow-hidden p-[1px]">
+                  <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 w-full"></div>
+                </div>
+              </div>
+
+              <!-- Action Link -->
+              <div class="pt-2 flex items-center justify-between">
+                <span class="text-xs text-slate-400">Ready to create yours?</span>
+                <a href="ad-generation.html" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+                  <span>Open Ad Generator</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Right 5 cols: Live 9:16 Vertical Video Output Preview -->
+            <div class="lg:col-span-5 flex items-center justify-center">
+              <div class="w-full max-w-[280px] aspect-[9/16] rounded-3xl bg-slate-950 border-2 border-slate-700/80 p-2 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+
+                <!-- Video Background Simulation -->
+                <div class="absolute inset-0 bg-gradient-to-b from-indigo-950 via-slate-900 to-black z-0">
+                  <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <!-- Center Product Showcase -->
+                  <div class="absolute top-[28%] left-1/2 -translate-x-1/2 w-36 h-36 flex items-center justify-center">
+                    <div class="relative w-28 h-28 rounded-2xl bg-gradient-to-tr from-indigo-900 to-cyan-900 border border-white/20 shadow-2xl flex items-center justify-center p-4 transform rotate-[-6deg] hover:rotate-0 transition duration-500">
+                      <svg class="w-16 h-16 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Video Top Bar Overlay -->
+                <div class="relative z-10 flex items-center justify-between pt-2 px-2">
+                  <span class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-emerald-400 border border-emerald-500/30">● 9:16 RENDERED</span>
+                  <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-slate-300">
+                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+                    <span>0:12 HD</span>
+                  </div>
+                </div>
+
+                <!-- Video Center Floating Kinetic Caption -->
+                <div class="relative z-10 px-3 text-center my-auto">
+                  <div class="inline-block px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-heading font-extrabold text-xs shadow-lg transform -rotate-1">
+                    POV: YOU FINALLY FOUND HEADPHONES THAT DON'T HURT
+                  </div>
+                </div>
+
+                <!-- Video Bottom Info Overlay -->
+                <div class="relative z-10 p-3 bg-gradient-to-t from-black/95 via-black/80 to-transparent rounded-b-2xl">
+                  <div class="pr-2">
+                    <p class="text-[11px] font-bold text-white flex items-center gap-1">
+                      @creator_sofia
+                      <svg class="w-3 h-3 text-cyan-400 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </p>
+                    <p class="text-[10px] text-slate-300 line-clamp-1 mt-0.5">I’ve been testing these for 2 weeks and the noise cancellation is unreal 🎧</p>
+
+                    <a href="library.html" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-extrabold text-[11px] flex items-center justify-between shadow-lg">
+                      <span>View in Creative Library</span>
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- HOW IT WORKS: THE 3-STEP PIPELINE -->
+    <section id="how-it-works" class="py-24 lg:py-32 relative border-t border-white/[0.06] bg-dark-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-20">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Simple Workflow</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            From Product Photo to UGC Ad Video
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg">
+            No filming, no shipping samples, and no editing software required. Generate professional creator ads in three simple steps.
+          </p>
+        </div>
+
+        <!-- 3-Step Horizontal Workflow -->
+        <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- Connecting Light Rail (Desktop) -->
+          <div class="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-500 opacity-40 -translate-y-12 z-0"></div>
+
+          <!-- Step 1 -->
+          <div class="relative z-10 glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <span class="font-mono text-3xl font-extrabold text-slate-600">01</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Upload Product Image</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Upload your product photo or hero shot directly from your device. AdBase handles the asset preparation automatically.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] flex items-center gap-2 text-xs font-mono text-indigo-400">
+              <span>● JPG, PNG & WebP Supported</span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative z-10 glass-card rounded-3xl p-8 border border-cyan-500/30 glass-card-hover flex flex-col justify-between shadow-lg shadow-cyan-950/40">
+            <div>
+              <div class="flex items-center justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </div>
+                <span class="font-mono text-3xl font-extrabold text-cyan-500/60">02</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Pick Actor & Voice</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Select from our library of AI creators or generate a brand-new custom actor matching your exact demographic, style, and age band. Pair with one of 26 studio voices.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] flex items-center gap-2 text-xs font-mono text-cyan-400">
+              <span>● 26 Voices • Custom AI Actors</span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative z-10 glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <span class="font-mono text-3xl font-extrabold text-slate-600">03</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Generate & Export</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Type your directing prompt and launch generation. Your completed UGC video is saved directly to your Creative Library ready to download and run.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] flex items-center gap-2 text-xs font-mono text-emerald-400">
+              <span>● High-Resolution 9:16 MP4</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- AI ACTOR STUDIO SHOWCASE -->
+    <section id="actor-studio" class="py-24 lg:py-32 relative">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Custom Demographic Matching</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            Generate Custom AI Actors<br />
+            <span class="text-gradient-purple">Tailored to Your Target Audience.</span>
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg">
+            Create hyper-realistic AI creators on demand. Specify gender, age band, ethnicity, style, and vibe to represent your brand authentically.
+          </p>
+
+          <!-- Interactive Actor Switcher -->
+          <div class="mt-8 inline-flex p-1.5 rounded-2xl bg-dark-950 border border-white/10 gap-2">
+            <button onclick="switchActorDemo('maya')" id="btn-actor-maya"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-md">
+              👩 Maya (Clean Skincare)
+            </button>
+            <button onclick="switchActorDemo('liam')" id="btn-actor-liam"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
+              👨 Liam (Tech & Fitness)
+            </button>
+            <button onclick="switchActorDemo('elena')" id="btn-actor-elena"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
+              ✨ Elena (Fashion & Luxe)
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Actor Studio Split View -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+          <!-- Left 6 cols: Actor Creation Parameters -->
+          <div class="lg:col-span-6 glass-card rounded-3xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                  Actor Generation Profile
+                </span>
+                <span class="text-xs font-mono text-slate-400">Actor Studio Engine</span>
+              </div>
+
+              <div class="space-y-4">
+                <!-- Name & Demographics Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3.5 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                    <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Actor Name</span>
+                    <p id="actor-demo-name" class="text-sm font-bold text-white">Maya Chen</p>
+                  </div>
+                  <div class="p-3.5 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                    <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Age Band & Gender</span>
+                    <p id="actor-demo-demographics" class="text-sm font-bold text-cyan-400">25-34 • Female</p>
+                  </div>
+                </div>
+
+                <!-- Ethnicity -->
+                <div class="p-3.5 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                  <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Ethnicity</span>
+                  <p id="actor-demo-ethnicity" class="text-sm font-medium text-slate-200">Asian / East Asian</p>
+                </div>
+
+                <!-- Traits Grid -->
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="p-3 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                    <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Hair Traits</span>
+                    <p id="actor-demo-hair" class="text-xs font-medium text-slate-200">Straight, Dark Brown</p>
+                  </div>
+                  <div class="p-3 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                    <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Style Traits</span>
+                    <p id="actor-demo-style" class="text-xs font-medium text-slate-200">Minimalist & Clean</p>
+                  </div>
+                  <div class="p-3 rounded-xl bg-dark-950/70 border border-white/[0.06]">
+                    <span class="text-[10px] font-mono text-slate-400 block mb-0.5">Vibe Traits</span>
+                    <p id="actor-demo-vibe" class="text-xs font-medium text-slate-200">Calm & Trustworthy</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+              <span class="text-xs text-slate-400">Generate bespoke actors anytime</span>
+              <a href="actor-generation.html" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5">
+                <span>Create Actor Now</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right 6 cols: Actor Visual Persona & Ad Result -->
+          <div class="lg:col-span-6 glass-card rounded-3xl p-6 sm:p-8 border border-indigo-500/30 flex flex-col justify-between shadow-xl shadow-indigo-950/40">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Active Creator Persona
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold">STATUS: SUCCEEDED</span>
+              </div>
+
+              <!-- Persona Presentation Card -->
+              <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 flex items-center gap-4 mb-4">
+                <div id="actor-avatar-badge" class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center font-bold text-white text-xl shadow-lg flex-shrink-0">
+                  MC
+                </div>
+                <div>
+                  <h4 id="actor-card-title" class="text-base font-bold text-white">Maya Chen</h4>
+                  <p id="actor-card-subtitle" class="text-xs text-slate-300 mt-0.5">Primary Actor for Beauty & Skincare UGC Ads</p>
+                  <div class="flex items-center gap-2 mt-2">
+                    <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-mono">12s Video Match</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">Voice: Rachel</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Directed Brief Preview -->
+              <div class="p-4 rounded-2xl bg-dark-950/70 border border-white/[0.06]">
+                <span class="text-[11px] font-mono font-bold text-amber-400 uppercase block mb-1.5">Directed Creative Prompt</span>
+                <p id="actor-demo-prompt" class="text-xs text-slate-300 leading-relaxed font-mono">
+                  “Soft daylight bathroom shot, creator smiles while applying hydrating glow serum to cheek, warm close-up, authentic UGC lifestyle feel.”
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span>Saved in Actor Library</span>
+              <a href="actors.html" class="text-indigo-400 hover:underline">View All Actors →</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- 26 STUDIO VOICES SHOWCASE -->
+    <section id="voices" class="py-24 lg:py-32 bg-dark-900/40 border-t border-white/[0.06] relative">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Audio & Narration Engine</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            26 Natural Studio Voices
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg">
+            Every ad needs the right tone. Choose from 26 voice models spanning conversational, energetic, calm, and authoritative accents.
+          </p>
+        </div>
+
+        <!-- Voice Matrix Pills Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-12">
+          <div class="p-3 rounded-xl glass-card border border-indigo-500/40 text-center">
+            <span class="text-xs font-bold text-white block">Rachel</span>
+            <span class="text-[10px] text-indigo-400 font-mono">Default • Warm</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Drew</span>
+            <span class="text-[10px] text-slate-400 font-mono">Conversational</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Clyde</span>
+            <span class="text-[10px] text-slate-400 font-mono">Deep & Confident</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Paul</span>
+            <span class="text-[10px] text-slate-400 font-mono">Authoritative</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Aria</span>
+            <span class="text-[10px] text-cyan-400 font-mono">Bright & Upbeat</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Domi</span>
+            <span class="text-[10px] text-slate-400 font-mono">Casual Friend</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Dave</span>
+            <span class="text-[10px] text-slate-400 font-mono">Everyday Guy</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Roger</span>
+            <span class="text-[10px] text-slate-400 font-mono">Storyteller</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Fin</span>
+            <span class="text-[10px] text-slate-400 font-mono">Youthful</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Sarah</span>
+            <span class="text-[10px] text-emerald-400 font-mono">Calm & Clear</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">James</span>
+            <span class="text-[10px] text-slate-400 font-mono">Corporate Pro</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Jane</span>
+            <span class="text-[10px] text-slate-400 font-mono">Relatable</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Juniper</span>
+            <span class="text-[10px] text-slate-400 font-mono">Aesthetic</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Arabella</span>
+            <span class="text-[10px] text-slate-400 font-mono">Sophisticated</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Hope</span>
+            <span class="text-[10px] text-slate-400 font-mono">Inspirational</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Bradford</span>
+            <span class="text-[10px] text-slate-400 font-mono">Resonant</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">Priyanka</span>
+            <span class="text-[10px] text-indigo-400 font-mono">Engaging</span>
+          </div>
+          <div class="p-3 rounded-xl glass-card border border-white/[0.08] text-center">
+            <span class="text-xs font-bold text-white block">+ 9 More Voices</span>
+            <span class="text-[10px] text-cyan-400 font-mono">In Generator</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- AD FORMATS SECTION -->
+    <section id="formats" class="py-24 lg:py-32 relative">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center max-w-3xl mx-auto mb-20">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Versatile Styles</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            Multiple Short-Form Styles
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg">
+            Direct your AI creator to deliver the exact ad format your campaign requires.
+          </p>
+        </div>
+
+        <!-- 4 Format Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <!-- Card 1: UGC Style -->
+          <div class="glass-card rounded-3xl p-5 border border-white/[0.08] glass-card-hover flex flex-col justify-between group">
+            <div>
+              <div class="w-full aspect-[9/14] rounded-2xl bg-gradient-to-b from-indigo-950/80 to-dark-950 border border-white/10 p-3 relative overflow-hidden mb-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2 py-0.5 rounded-full bg-black/60 text-[9px] font-mono text-indigo-300">UGC CREATOR</span>
+                  <span class="text-[10px] text-emerald-400 font-mono">TikTok Ready</span>
+                </div>
+                <div class="my-auto text-center z-10">
+                  <div class="w-12 h-12 rounded-full bg-indigo-500/30 border border-indigo-400/40 mx-auto flex items-center justify-center text-white mb-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                  </div>
+                  <p class="text-[11px] font-bold text-white leading-tight px-2 bg-black/70 py-1 rounded-lg">“Here’s why I stopped using ordinary bottles…”</p>
+                </div>
+                <div class="z-10 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                  <span>Authentic Review</span>
+                  <span>9:16 Vertical</span>
+                </div>
+              </div>
+
+              <h4 class="text-lg font-heading font-bold text-white mb-1">UGC Testimonial</h4>
+              <p class="text-xs text-slate-400">Authentic creator testimonials with organic smartphone framing.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/[0.06] text-[11px] font-mono text-indigo-400">
+              Ideal for TikTok & Reels
+            </div>
+          </div>
+
+          <!-- Card 2: Problem / Solution -->
+          <div class="glass-card rounded-3xl p-5 border border-white/[0.08] glass-card-hover flex flex-col justify-between group">
+            <div>
+              <div class="w-full aspect-[9/14] rounded-2xl bg-gradient-to-b from-cyan-950/80 to-dark-950 border border-white/10 p-3 relative overflow-hidden mb-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2 py-0.5 rounded-full bg-black/60 text-[9px] font-mono text-cyan-300">PAIN POINT</span>
+                  <span class="text-[10px] text-emerald-400 font-mono">High CTR</span>
+                </div>
+                <div class="my-auto text-center z-10">
+                  <div class="w-12 h-12 rounded-full bg-cyan-500/30 border border-cyan-400/40 mx-auto flex items-center justify-center text-cyan-300 mb-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                  </div>
+                  <p class="text-[11px] font-bold text-white leading-tight px-2 bg-black/70 py-1 rounded-lg">“Still struggling with midday battery anxiety?”</p>
+                </div>
+                <div class="z-10 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                  <span>Fast Hook</span>
+                  <span>Direct Solution</span>
+                </div>
+              </div>
+
+              <h4 class="text-lg font-heading font-bold text-white mb-1">Problem / Solution</h4>
+              <p class="text-xs text-slate-400">High-tension pain point hook resolved instantly with your product.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/[0.06] text-[11px] font-mono text-cyan-400">
+              Pattern Interrupt Opening
+            </div>
+          </div>
+
+          <!-- Card 3: Product Demo -->
+          <div class="glass-card rounded-3xl p-5 border border-white/[0.08] glass-card-hover flex flex-col justify-between group">
+            <div>
+              <div class="w-full aspect-[9/14] rounded-2xl bg-gradient-to-b from-violet-950/80 to-dark-950 border border-white/10 p-3 relative overflow-hidden mb-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2 py-0.5 rounded-full bg-black/60 text-[9px] font-mono text-violet-300">DEMO</span>
+                  <span class="text-[10px] text-emerald-400 font-mono">Clear Focus</span>
+                </div>
+                <div class="my-auto text-center z-10">
+                  <div class="w-12 h-12 rounded-full bg-violet-500/30 border border-violet-400/40 mx-auto flex items-center justify-center text-violet-300 mb-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  </div>
+                  <p class="text-[11px] font-bold text-white leading-tight px-2 bg-black/70 py-1 rounded-lg">“Watch how easy it is to apply…”</p>
+                </div>
+                <div class="z-10 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                  <span>Product Close-Up</span>
+                  <span>Feature Showcase</span>
+                </div>
+              </div>
+
+              <h4 class="text-lg font-heading font-bold text-white mb-1">Product Showcase</h4>
+              <p class="text-xs text-slate-400">Clear product interaction and feature highlights that build buying confidence.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/[0.06] text-[11px] font-mono text-violet-400">
+              High Feature Clarity
+            </div>
+          </div>
+
+          <!-- Card 4: Lifestyle / Aesthetic -->
+          <div class="glass-card rounded-3xl p-5 border border-white/[0.08] glass-card-hover flex flex-col justify-between group">
+            <div>
+              <div class="w-full aspect-[9/14] rounded-2xl bg-gradient-to-b from-emerald-950/80 to-dark-950 border border-white/10 p-3 relative overflow-hidden mb-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2 py-0.5 rounded-full bg-black/60 text-[9px] font-mono text-emerald-300">LIFESTYLE</span>
+                  <span class="text-[10px] text-emerald-400 font-mono">Aesthetic</span>
+                </div>
+                <div class="my-auto text-center z-10">
+                  <div class="w-12 h-12 rounded-full bg-emerald-500/30 border border-emerald-400/40 mx-auto flex items-center justify-center text-emerald-300 mb-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                  </div>
+                  <p class="text-[11px] font-bold text-white leading-tight px-2 bg-black/70 py-1 rounded-lg">“Made for your everyday routine…”</p>
+                </div>
+                <div class="z-10 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                  <span>Natural Lighting</span>
+                  <span>Aspirational</span>
+                </div>
+              </div>
+
+              <h4 class="text-lg font-heading font-bold text-white mb-1">Lifestyle & Aesthetic</h4>
+              <p class="text-xs text-slate-400">Warm lighting and relaxed creator scenes that elevate brand appeal.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/[0.06] text-[11px] font-mono text-emerald-400">
+              Modern Aesthetic Feel
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- BENTO FEATURES GRID -->
+    <section id="features" class="py-24 lg:py-32 bg-dark-900/40 border-t border-white/[0.06] relative">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center max-w-3xl mx-auto mb-20">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Platform Capabilities</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            Engineered for Effortless Ad Creation
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg">
+            Everything you need to produce authentic creator video ads quickly and affordably.
+          </p>
+        </div>
+
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Feature 1: Custom Actor Studio (Large Bento) -->
+          <div class="md:col-span-2 glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between relative overflow-hidden">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-heading font-bold text-white mb-3">Custom AI Actor Studio</h3>
+              <p class="text-slate-300 text-sm leading-relaxed max-w-xl mb-6">
+                Never search for UGC creators again. Generate digital actors that match your exact customer personas with customizable age bands, ethnicities, hairstyles, and style vibes.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-white/[0.06]">
+              <div class="p-3 rounded-xl bg-dark-950/60 border border-white/[0.05] text-xs">
+                <span class="text-indigo-400 font-mono font-bold block mb-1">Demographic Tuning</span>
+                <span class="text-slate-400">Select age bands (18-24 up to 55+), gender presentation, and ethnicity.</span>
+              </div>
+              <div class="p-3 rounded-xl bg-dark-950/60 border border-white/[0.05] text-xs">
+                <span class="text-cyan-400 font-mono font-bold block mb-1">Style & Vibe Controls</span>
+                <span class="text-slate-400">Define custom hair, outfit styling, and creator energy.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2: 26 Studio Voices -->
+          <div class="glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">26 Studio Voice Models</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Match your actor with the perfect voiceover. Choose from 26 voice profiles with realistic cadence and tone.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] text-xs font-mono text-cyan-400">
+              ✓ Multi-Tone Audio Library
+            </div>
+          </div>
+
+          <!-- Feature 3: Directing Prompts -->
+          <div class="glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-violet-400 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Custom Prompt Directing</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Direct camera angles, lighting temperature, background setting, and product interactions with natural language prompts.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] text-xs font-mono text-violet-400">
+              ✓ Creative Control
+            </div>
+          </div>
+
+          <!-- Feature 4: 9:16 Vertical Video Native -->
+          <div class="glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Platform-Ready 9:16</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Export native vertical video formatted for TikTok, Instagram Reels, Facebook Reels, and YouTube Shorts.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] text-xs font-mono text-emerald-400">
+              ✓ Direct MP4 Export
+            </div>
+          </div>
+
+          <!-- Feature 5: Centralized Creative Library -->
+          <div class="glass-card rounded-3xl p-8 border border-white/[0.08] glass-card-hover flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-white mb-3">Organized Ad Library</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Filter and manage all generated videos and actors with status tracking, search, and instant video download links.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/[0.06] text-xs font-mono text-amber-400">
+              ✓ Cloud Creative Storage
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- FAQ ACCORDION SECTION -->
+    <section class="py-24 bg-dark-900/40 border-t border-white/[0.06] relative">
+      <div class="max-w-4xl mx-auto px-6">
+
+        <div class="text-center mb-16">
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base">
+            Everything you need to know about creating AI UGC ads with AdBase.
+          </p>
+        </div>
+
+        <div class="space-y-4" id="faqAccordion">
+
+          <!-- FAQ Item 1 -->
+          <div class="glass-card rounded-2xl border border-white/[0.08] overflow-hidden">
+            <button onclick="toggleFaq(1)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4">
+              <span class="font-heading font-semibold text-white text-sm sm:text-base">How do custom AI actors work?</span>
+              <svg id="faqIcon-1" class="w-5 h-5 text-slate-400 transform transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="faqAnswer-1" class="px-6 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden">
+              You can choose from our existing actor gallery or generate new custom digital creators. Simply select the actor's name, gender, age band (18-24 up to 55+), ethnicity, and specific traits for hair, style, and vibe. AdBase synthesizes a high-resolution creator persona saved directly to your account.
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div class="glass-card rounded-2xl border border-white/[0.08] overflow-hidden">
+            <button onclick="toggleFaq(2)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4">
+              <span class="font-heading font-semibold text-white text-sm sm:text-base">What do I need to generate an ad?</span>
+              <svg id="faqIcon-2" class="w-5 h-5 text-slate-400 transform transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="faqAnswer-2" class="px-6 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden">
+              All you need is a clean product image. Upload your photo, select an AI actor, choose from 26 voice models, enter your visual directing prompt, and start the job. Your completed video will be ready in minutes in your Creative Library.
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="glass-card rounded-2xl border border-white/[0.08] overflow-hidden">
+            <button onclick="toggleFaq(3)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4">
+              <span class="font-heading font-semibold text-white text-sm sm:text-base">What voices are available?</span>
+              <svg id="faqIcon-3" class="w-5 h-5 text-slate-400 transform transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="faqAnswer-3" class="px-6 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden">
+              AdBase includes 26 distinct voice models with varied tones, energies, and genders (including Rachel, Drew, Aria, Clyde, Sarah, Paul, Domi, and more) to match whatever emotion or persona your product requires.
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="glass-card rounded-2xl border border-white/[0.08] overflow-hidden">
+            <button onclick="toggleFaq(4)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4">
+              <span class="font-heading font-semibold text-white text-sm sm:text-base">What video format is output?</span>
+              <svg id="faqIcon-4" class="w-5 h-5 text-slate-400 transform transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="faqAnswer-4" class="px-6 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden">
+              AdBase outputs vertical 9:16 MP4 video files optimized for TikTok, Instagram Reels, Facebook Reels, and YouTube Shorts. You can preview or download the video directly from your Creative Library.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- FINAL CTA SECTION -->
+    <section class="py-24 lg:py-32 relative overflow-hidden">
+      <div class="max-w-6xl mx-auto px-6 relative z-10">
+
+        <!-- Glowing Card Container -->
+        <div class="relative rounded-3xl p-10 sm:p-16 lg:p-20 text-center glass-card border border-indigo-500/40 shadow-2xl shadow-indigo-950 overflow-hidden">
+
+          <!-- Background Animated Glow -->
+          <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-600/30 rounded-full blur-3xl animate-pulse-glow"></div>
+          <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-500/30 rounded-full blur-3xl animate-float-delayed"></div>
+
+          <div class="relative z-10 max-w-3xl mx-auto space-y-8">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+              <span>Start Creating Today</span>
+            </div>
+
+            <h2 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              Create your next UGC video ad<br />
+              <span class="text-gradient-vibrant">in just a few clicks.</span>
+            </h2>
+
+            <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+              Upload your product image, pick your AI actor and voice, and let AdBase generate short-form video ads for your brand.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <a href="ad-generation.html"
+                class="btn-shine w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-base shadow-2xl shadow-indigo-600/40 hover:scale-105 active:scale-95 transition flex items-center justify-center gap-3">
+                <span>Create Your First Ad</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </a>
+              <a href="actors.html"
+                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-dark-950/80 hover:bg-slate-800 border border-white/10 text-slate-300 font-semibold text-base transition">
+                Explore Actor Studio
+              </a>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium pt-2">
+              <span>✓ Custom AI Actors</span>
+              <span>•</span>
+              <span>✓ 26 Studio Voices</span>
+              <span>•</span>
+              <span>✓ 9:16 Video Exports</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODERN SAAS FOOTER -->
+  <footer class="border-t border-white/[0.08] bg-dark-950 py-16 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+
+        <!-- Brand Col (2 cols on md) -->
+        <div class="col-span-2 space-y-4">
+          <a href="index.html" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 p-[1px]">
+              <div class="w-full h-full bg-dark-950 rounded-[11px] flex items-center justify-center">
+                <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white">AdBase</span>
+          </a>
+          <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+            AI-powered UGC video ad creation for modern brands. Generate authentic short-form video ads with custom AI actors and studio voices.
+          </p>
+          <div class="flex items-center gap-2 pt-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[11px] font-mono text-emerald-400 font-medium">Creative generation systems active</span>
+          </div>
+        </div>
+
+        <!-- Product Col -->
+        <!-- <div class="space-y-3 text-xs">
+          <p class="font-bold text-white uppercase tracking-wider text-[11px]">Product</p>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="ad-generation.html" class="hover:text-white transition">Create Video Ad</a></li>
+            <li><a href="actors.html" class="hover:text-white transition">AI Actor Gallery</a></li>
+            <li><a href="actor-generation.html" class="hover:text-white transition">Generate AI Actor</a></li>
+            <li><a href="library.html" class="hover:text-white transition">Creative Library</a></li>
+            <li><a href="dashboard.html" class="hover:text-white transition">Brand Dashboard</a></li>
+          </ul>
+        </div> -->
+
+        <!-- Account Col -->
+        <!-- <div class="space-y-3 text-xs">
+          <p class="font-bold text-white uppercase tracking-wider text-[11px]">Account & Access</p>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="login.html" class="hover:text-white transition">Log In</a></li>
+            <li><a href="ad-generation.html" class="hover:text-white transition">Get Started</a></li>
+            <li><a href="library.html" class="hover:text-white transition">My Ads</a></li>
+          </ul>
+        </div> -->
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <p>© 2026 AdBase Inc. All rights reserved.</p>
+        <!-- <div class="flex items-center gap-6">
+          <a href="index.html" class="hover:text-slate-300">Home</a>
+          <a href="ad-generation.html" class="text-indigo-400 hover:underline">Start Creating</a>
+        </div> -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- LIGHTWEIGHT VANILLA JAVASCRIPT FOR INTERACTIONS -->
+  <script>
+    // 1. Interactive Demo Actor Switcher
+    const actorData = {
+      maya: {
+        name: "Maya Chen",
+        demographics: "25-34 • Female",
+        ethnicity: "Asian / East Asian",
+        hair: "Straight, Dark Brown",
+        style: "Minimalist & Clean",
+        vibe: "Calm & Trustworthy",
+        avatar: "MC",
+        title: "Maya Chen",
+        subtitle: "Primary Actor for Beauty & Skincare UGC Ads",
+        prompt: "“Soft daylight bathroom shot, creator smiles while applying hydrating glow serum to cheek, warm close-up, authentic UGC lifestyle feel.”"
+      },
+      liam: {
+        name: "Liam Walker",
+        demographics: "18-24 • Male",
+        ethnicity: "Caucasian",
+        hair: "Short, Textured Brown",
+        style: "Athletic & Streetwear",
+        vibe: "High Energy & Confident",
+        avatar: "LW",
+        title: "Liam Walker",
+        subtitle: "Primary Actor for Fitness, Tech & Outdoor Gear",
+        prompt: "“Modern gym setting, creator snaps on noise-cancelling headphones before workout, dynamic slight push-in, high energy testimonial.”"
+      },
+      elena: {
+        name: "Elena Rostova",
+        demographics: "25-34 • Female",
+        ethnicity: "European",
+        hair: "Wavy, Blonde",
+        style: "Chic & Elevated",
+        vibe: "Polished & Friendly",
+        avatar: "ER",
+        title: "Elena Rostova",
+        subtitle: "Primary Actor for Fashion, Wellness & Home Living",
+        prompt: "“Bright minimalist living room, holding luxury thermal bottle with modern aesthetic background, relaxed conversational direct-to-camera angle.”"
+      }
+    };
+
+    function switchActorDemo(key) {
+      const data = actorData[key];
+      if (!data) return;
+
+      // Update Tabs active styles
+      ['maya', 'liam', 'elena'].forEach(item => {
+        const btn = document.getElementById(`btn-actor-${item}`);
+        if (item === key) {
+          btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-md";
+        } else {
+          btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
+        }
+      });
+
+      // Update Profile Fields
+      document.getElementById('actor-demo-name').innerText = data.name;
+      document.getElementById('actor-demo-demographics').innerText = data.demographics;
+      document.getElementById('actor-demo-ethnicity').innerText = data.ethnicity;
+      document.getElementById('actor-demo-hair').innerText = data.hair;
+      document.getElementById('actor-demo-style').innerText = data.style;
+      document.getElementById('actor-demo-vibe').innerText = data.vibe;
+
+      // Update Card Fields
+      document.getElementById('actor-avatar-badge').innerText = data.avatar;
+      document.getElementById('actor-card-title').innerText = data.title;
+      document.getElementById('actor-card-subtitle').innerText = data.subtitle;
+      document.getElementById('actor-demo-prompt').innerText = data.prompt;
+    }
+
+    // 2. FAQ Accordion Toggle
+    function toggleFaq(id) {
+      const answer = document.getElementById(`faqAnswer-${id}`);
+      const icon = document.getElementById(`faqIcon-${id}`);
+      const isHidden = answer.classList.contains('hidden');
+
+      // Close all
+      for (let i = 1; i <= 4; i++) {
+        const a = document.getElementById(`faqAnswer-${i}`);
+        const ic = document.getElementById(`faqIcon-${i}`);
+        if (a) a.classList.add('hidden');
+        if (ic) ic.classList.remove('rotate-180');
+      }
+
+      if (isHidden) {
+        answer.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      }
+    }
+
+    // 3. Mobile Menu Toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeIcon = document.getElementById('closeIcon');
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        const isClosed = mobileMenu.classList.contains('hidden');
+        if (isClosed) {
+          mobileMenu.classList.remove('hidden');
+          hamburgerIcon.classList.add('hidden');
+          closeIcon.classList.remove('hidden');
+        } else {
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+        }
+      });
+
+      // Close on link click
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+        });
+      });
+    }
+
+    // 4. Subtle Cursor Glow Follower
+    const cursor = document.getElementById('cursorGlow');
+    if (cursor && window.matchMedia('(pointer: fine)').matches) {
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let curX = mouseX;
+      let curY = mouseY;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateCursor() {
+        curX += (mouseX - curX) * 0.12;
+        curY += (mouseY - curY) * 0.12;
+        cursor.style.left = `${curX}px`;
+        cursor.style.top = `${curY}px`;
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+    }
+  </script>
 
 </body>
+
 </html>

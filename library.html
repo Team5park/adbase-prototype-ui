@@ -1,89 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <title>Ad Library — AdBase</title>
+  <script>if (!localStorage.getItem('adbase_token')) window.location.replace('index.html');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Library — AdBase</title>
 
-  <!-- Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
           colors: {
-            primary: "#4f46e5",
-            success: "#22c55e"
+            primary: '#4f46e5',
+            success: '#22c55e'
           }
         }
       }
     }
   </script>
+
+  <style>
+    :root { color-scheme: dark; }
+    body { background-color: #07090e; }
+    .app-header {
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: rgba(255,255,255,0.07);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .ad-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ad-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.2);
+    }
+    .filter-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #f1f5f9;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .filter-input:focus {
+      outline: none;
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    .filter-input option { background: #0b0f19; }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.35; } 50% { opacity: 0.6; }
+    }
+    .animate-glow { animation: pulse-glow 5s ease-in-out infinite; }
+  </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 min-h-screen">
+<body class="font-sans antialiased text-slate-100 min-h-screen">
 
-  <!-- HEADER -->
-  <header class="border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold">AdBase</h1>
-      <a href="ad-generation.html" class="px-4 py-2 rounded-xl bg-primary hover:bg-indigo-500 transition font-medium">
-        Create Ad
+  <!-- Ambient Glows -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute top-[-5%] left-[20%] w-[450px] h-[450px] bg-indigo-600/12 rounded-full blur-[120px] animate-glow"></div>
+    <div class="absolute bottom-[5%] right-[5%] w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[110px]"></div>
+  </div>
+
+  <!-- STICKY GLASS HEADER -->
+  <header class="sticky top-0 z-50 border-b app-header">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20">
+          <div class="w-full h-full rounded-[10px] flex items-center justify-center" style="background:#07090e">
+            <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+        </div>
+        <span class="font-heading font-extrabold text-xl tracking-tight text-white">AdBase</span>
       </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
+        <a href="dashboard.html" class="hover:text-white transition">Dashboard</a>
+        <a href="actors.html" class="hover:text-white transition">Actors</a>
+        <a href="library.html" class="text-white">Library</a>
+      </nav>
+
+      <!-- Right actions including Profile Dropdown -->
+      <div class="flex items-center gap-4">
+        <a href="ad-generation.html"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
+          style="background:linear-gradient(135deg,#4f46e5,#06b6d4)">
+          ✦︎ Generate Ad
+        </a>
+
+        <!-- Profile Dropdown Component -->
+        <div class="relative flex-shrink-0" id="profileContainer">
+          <button id="profileDropdownBtn" type="button" class="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 to-cyan-500 p-[1px] focus:outline-none flex items-center justify-center hover:scale-105 active:scale-95 transition">
+            <div class="w-full h-full rounded-full bg-dark-950 flex items-center justify-center font-heading font-bold text-white text-sm uppercase" id="profileInitials">
+              U
+            </div>
+          </button>
+          <div id="profileDropdownMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-48 rounded-2xl shadow-2xl z-50 p-1.5" style="background: rgba(11, 15, 25, 0.98); border: 1px solid rgba(255,255,255,0.09); backdrop-filter: blur(16px);">
+            <div class="px-3.5 py-2.5 border-b border-white/[0.05]">
+              <p class="text-[10px] font-mono text-slate-400">Signed in as</p>
+              <p class="text-sm font-semibold text-white truncate" id="profileUsername">Username</p>
+            </div>
+            <div class="p-1">
+              <button onclick="handleSignOut()" class="w-full text-left px-3 py-2 rounded-xl text-xs text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 font-medium transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- MAIN -->
-  <main class="max-w-7xl mx-auto px-6 py-10">
+  <main class="relative z-10 max-w-7xl mx-auto px-6 py-10">
 
-    <!-- TOP BAR -->
-    <section class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <!-- Page Header -->
+    <div class="mb-10">
+      <h2 class="font-heading text-3xl font-extrabold text-white mb-1">Creative Library</h2>
+      <p class="text-slate-400 text-sm">All your generated video ads in one place.</p>
+    </div>
+
+    <!-- FILTER BAR (ALL FUNCTIONAL ELEMENTS PRESERVED EXACTLY) -->
+    <section class="glass-card rounded-2xl p-4 mb-8 flex flex-col md:flex-row gap-3 items-stretch md:items-center">
 
       <!-- Search -->
-      <input type="text" placeholder="Search ads..."
-        class="w-full md:w-1/3 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary outline-none" />
+      <input type="text" id="searchInput" placeholder="Search ads..."
+        class="filter-input flex-1 rounded-xl px-4 py-2.5 text-sm placeholder-slate-500" />
 
       <!-- Filters -->
-      <div class="flex gap-3">
-        <select class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3">
-          <option>All Status</option>
-          <option>Completed</option>
-          <option>Processing</option>
-          <option>Failed</option>
+      <div class="flex gap-3 flex-wrap">
+        <select id="statusFilter" class="filter-input rounded-xl px-4 py-2.5 text-sm">
+          <option value="all">All Status</option>
+          <option value="succeeded">Completed</option>
+          <option value="processing">Processing</option>
+          <option value="failed">Failed</option>
         </select>
 
-        <select class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3">
-          <option>All Platforms</option>
-          <option>Instagram</option>
-          <option>Facebook</option>
-          <option>TikTok</option>
-          <option>YouTube Shorts</option>
-        </select>
       </div>
 
     </section>
 
-    <!-- EMPTY STATE -->
-    <section id="emptyState" class="border border-dashed border-slate-700 rounded-3xl p-14 text-center text-slate-400">
-      <p class="text-lg mb-4">No ads generated yet</p>
+    <!-- LOADING SKELETONS (visible while fetching) -->
+    <div id="skeletonState" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="ad-card rounded-2xl overflow-hidden animate-pulse">
+        <div class="h-44" style="background:rgba(30,41,59,0.6)"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-3.5 rounded-lg w-3/4" style="background:rgba(30,41,59,0.8)"></div>
+          <div class="h-3 rounded-lg w-1/2" style="background:rgba(30,41,59,0.8)"></div>
+        </div>
+      </div>
+      <div class="ad-card rounded-2xl overflow-hidden animate-pulse">
+        <div class="h-44" style="background:rgba(30,41,59,0.6)"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-3.5 rounded-lg w-4/5" style="background:rgba(30,41,59,0.8)"></div>
+          <div class="h-3 rounded-lg w-1/3" style="background:rgba(30,41,59,0.8)"></div>
+        </div>
+      </div>
+      <div class="ad-card rounded-2xl overflow-hidden animate-pulse">
+        <div class="h-44" style="background:rgba(30,41,59,0.6)"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-3.5 rounded-lg w-2/3" style="background:rgba(30,41,59,0.8)"></div>
+          <div class="h-3 rounded-lg w-2/5" style="background:rgba(30,41,59,0.8)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE (shown after fetch confirms no ads) -->
+    <section id="emptyState" class="hidden rounded-3xl p-16 text-center text-slate-400" style="border:1.5px dashed rgba(255,255,255,0.1)">
+      <div class="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center" style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15)">
+        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+      </div>
+      <p class="text-lg font-semibold text-slate-300 mb-2">No ads generated yet</p>
+      <p class="text-sm text-slate-500 mb-6">Upload a product image and generate your first UGC video ad to see it here.</p>
       <a href="ad-generation.html"
-        class="inline-block px-6 py-3 rounded-xl bg-primary hover:bg-indigo-500 transition font-semibold">
-        Create Your First Ad
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm transition hover:opacity-90"
+        style="background:linear-gradient(135deg,#4f46e5,#06b6d4)">
+        Generate Your First Ad
       </a>
     </section>
 
-    <!-- ADS GRID -->
-    <section id="adsGrid" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-    </section>
+    <!-- ADS GRID (populated by JS) -->
+    <section id="adsGrid" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6"></section>
 
-  </main>
-
-  <!-- FETCH ADS FROM API -->
+  </main>  <!-- FETCH ADS FROM API (PRESERVED EXACTLY, EXTENDED FOR LOCAL FILTERING) -->
   <script>
+    const skeletonState = document.getElementById("skeletonState");
     const emptyState = document.getElementById("emptyState");
     const adsGrid = document.getElementById("adsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+
+    let allAds = [];
+
+    // Helper function to render cards based on filtered dataset
+    function renderAds(ads) {
+      if (ads.length === 0) {
+        adsGrid.classList.add("hidden");
+        emptyState.classList.remove("hidden");
+
+        // Customize text when empty state is due to filter criteria
+        if (allAds.length > 0) {
+          emptyState.querySelector("p.text-lg").textContent = "No matching ads found";
+          emptyState.querySelector("p.text-sm").textContent = "Try adjusting your search terms or status filter.";
+          emptyState.querySelector("a").classList.add("hidden");
+        } else {
+          emptyState.querySelector("p.text-lg").textContent = "No ads generated yet";
+          emptyState.querySelector("p.text-sm").textContent = "Upload a product image and generate your first UGC video ad to see it here.";
+          emptyState.querySelector("a").classList.remove("hidden");
+        }
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      adsGrid.classList.remove("hidden");
+
+      adsGrid.innerHTML = ads.map(ad => `
+        <div class="ad-card rounded-2xl overflow-hidden">
+          <div class="h-44 bg-slate-900 flex items-center justify-center text-slate-500 overflow-hidden">
+            ${ad.image_url ? `<img src="${ad.image_url}" alt="${ad.id}" class="w-full h-full object-cover">` : "Ad Preview"}
+          </div>
+
+          <div class="p-4 space-y-3">
+            <h3 class="font-heading font-semibold text-white truncate">${ad.prompt ? ad.prompt.substring(0, 30) : ""}...</h3>
+
+            <div class="flex justify-between items-center">
+              <span class="inline-flex items-center gap-1.5 text-xs font-mono font-medium ${ad.status === 'succeeded' ? 'text-emerald-400' : 'text-amber-400'} capitalize">
+                <span class="w-1.5 h-1.5 rounded-full ${ad.status === 'succeeded' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}"></span>
+                ${ad.status}
+              </span>
+              ${ad.status === 'succeeded' && ad.output_video_url ? `<a
+                href="${ad.output_video_url || '#'}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                View Video
+              </a>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Main filter function
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      const status = statusFilter.value;
+
+      const filtered = allAds.filter(ad => {
+        const matchesSearch = !query || (ad.prompt && ad.prompt.toLowerCase().includes(query));
+        const matchesStatus = status === 'all' || ad.status === status;
+        return matchesSearch && matchesStatus;
+      });
+
+      renderAds(filtered);
+    }
 
     async function fetchAds() {
       try {
@@ -100,47 +296,59 @@
         }
 
         const data = await response.json();
-        const ads = data.jobs || [];
+        allAds = data.jobs || [];
 
-        if (ads.length > 0) {
-          emptyState.classList.add("hidden");
-          adsGrid.classList.remove("hidden");
+        // Hide skeleton once fetch resolves
+        skeletonState.classList.add("hidden");
 
-          // Clear existing template card and populate with real data
-          adsGrid.innerHTML = ads.map(ad => `
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-              <div class="h-44 bg-slate-800 flex items-center justify-center text-slate-500">
-                ${ad.image_url ? `<img src="${ad.image_url}" alt="${ad.id}" class="w-full h-full object-cover">` : "Ad Preview"}
-              </div>
+        // Initially render all loaded ads
+        renderAds(allAds);
 
-              <div class="p-4 space-y-2">
-                <h3 class="font-semibold truncate">${ad.prompt.substring(0, 30)}...</h3>
+        // Set up filter event listeners
+        searchInput.addEventListener("input", applyFilters);
+        statusFilter.addEventListener("change", applyFilters);
 
-                <div class="flex justify-between items-center pt-2">
-                  <span class="text-xs ${ad.status === 'succeeded' ? 'text-success' : 'text-yellow-500'} font-medium capitalize">${ad.status}</span>
-                  ${ad.status === 'succeeded' && ad.output_video_url ?`<a
-                    href="${ad.output_video_url || '#'}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-sm text-primary hover:underline"
-                  >
-                    View
-                  </a>` : ''}
-                </div>
-              </div>
-            </div>
-          `).join("");
-        }
       } catch (error) {
         console.error("Error fetching ads:", error);
+        skeletonState.classList.add("hidden");
+        emptyState.classList.remove("hidden");
         emptyState.innerHTML = `<p class="text-lg mb-4">Error loading ads: ${error.message}</p>`;
       }
     }
 
     // Fetch ads on page load
     fetchAds();
+
+    // Profile Dropdown logic
+    const profileContainer = document.getElementById('profileContainer');
+    const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+    const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+    const profileInitials = document.getElementById('profileInitials');
+    const profileUsername = document.getElementById('profileUsername');
+
+    if (profileDropdownBtn && profileDropdownMenu) {
+      const username = localStorage.getItem('adbase_username') || 'User';
+      if (profileUsername) profileUsername.textContent = username;
+      if (profileInitials) profileInitials.textContent = username.charAt(0).toUpperCase();
+
+      profileDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileDropdownMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!profileContainer.contains(e.target)) {
+          profileDropdownMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    function handleSignOut() {
+      localStorage.removeItem('adbase_token');
+      localStorage.removeItem('adbase_username');
+      window.location.href = 'index.html';
+    }
   </script>
 
 </body>
-
 </html>
